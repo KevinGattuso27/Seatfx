@@ -13,6 +13,7 @@ def get_date(day_offset: int = 0):
     tomorrow = offset_day.strftime("%Y-%m-%d")
     return tomorrow
 
+
 class reserve:
     def __init__(self,
         sleep_time=0.2,
@@ -71,6 +72,7 @@ class reserve:
     def _get_page_token(self, url, require_value=False):
         response = self.requests.get(url=url, verify=False)
         html = response.content.decode("utf-8")
+        # matches = re.findall(r"token = \"(.*?)\"", html)
         matches = re.findall(r'id="submit_enc"\s+value="(.*?)"', html)
         value_matches = None
         if require_value:
@@ -149,7 +151,7 @@ class reserve:
         data = json.loads(text)
         logging.info(f"Successfully resolve the captcha token {data}")
         try:
-            validate_val = json.loads(data["extraData"])"validate"
+            validate_val = json.loads(data["extraData"])"["validate"]
             return validate_val
         except KeyError as e:
             logging.info("Can't load validate value. Maybe server return mistake.")
@@ -176,7 +178,7 @@ class reserve:
         content = response.text
 
         data = content.replace(
-            "jQuery33109180509794206_1716461324846(", ""
+            "jQuery33107685004390294206_1716461324846(", ""
         ).replace(")", "")
         data = json.loads(data)
         captcha_token = data["token"]
@@ -231,6 +233,7 @@ class reserve:
         for seat in seatid:
             suc = False
             while not suc and self.max_attempt > 0:
+                # Calculate the reservation day for the /select URL
                 delta_day = 1 if self.reserve_next_day else 0
                 if action:
                     day = (datetime.date.today() + datetime.timedelta(days=1 + delta_day)).strftime("%Y-%m-%d")
@@ -265,11 +268,11 @@ class reserve:
         delta_day = 1 if self.reserve_next_day else 0
         day = datetime.date.today() + datetime.timedelta(
             days=0 + delta_day
-        )
+        )  # 预约今天，修改days=1表示预约明天
         if action:
             day = datetime.date.today() + datetime.timedelta(
                 days=1 + delta_day
-            )
+            )  # 由于action时区问题导致其早+8区一天
         parm = {
             "roomId": roomid,
             "startTime": times[0],
@@ -282,6 +285,7 @@ class reserve:
             "verifyData": "1",
         }
         logging.info(f"submit parameter {parm} ")
+        # parm["enc"] = enc(parm)
         parm["enc"] = verify_param(parm, value)
         html = self.requests.post(url=url, params=parm, verify=True).content.decode(
             "utf-8"
