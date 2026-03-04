@@ -6,7 +6,7 @@ name: auto_Reserve
 # or API.
 on:
   schedule:
-    - cron: "50 3 * * *" # 每天UTC 03:59（北京时间11:50）启动
+    - cron: "55 3 * * *" # 每天UTC 03:59（北京时间11:55）启动
   workflow_dispatch:
   
 jobs:
