@@ -3,9 +3,9 @@
         {
             "username": "xxx",
             "password": "xxx",
-            "time": ["09:30","10:30"],
+            "time": ["10:30","22:00"],
             "roomid": "11239",
-            "seatid": ["065"],
+            "seatid": ["060"],
             "daysofweek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         }
     ]
