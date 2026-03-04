@@ -20,7 +20,7 @@ class reserve:
         max_attempt=50,
         enable_slider=False,
         reserve_next_day=False,
-    ):
+    ): 
         self.login_page = (
             "https://passport2.chaoxing.com/mlogin?loginType=1&newversion=true&fid="
         )
@@ -147,11 +147,11 @@ class reserve:
         )
         text = response.text.replace(
             "jQuery33109180509737430778_1716381333117(", ""
-        ).replace(")", "")
+        ).replace("), ")
         data = json.loads(text)
         logging.info(f"Successfully resolve the captcha token {data}")
         try:
-            validate_val = json.loads(data["extraData"])"["validate"]
+            validate_val = json.loads(data["extraData"])"validate";
             return validate_val
         except KeyError as e:
             logging.info("Can't load validate value. Maybe server return mistake.")
@@ -178,8 +178,8 @@ class reserve:
         content = response.text
 
         data = content.replace(
-            "jQuery33107685004390294206_1716461324846(", ")"
-        ).replace(")", "")
+            "jQuery33107685004390294206_1716461324846(", "):"
+        ).replace("), ")
         data = json.loads(data)
         captcha_token = data["token"]
         bg = data["imageVerificationVo"]["shadeImage"]
@@ -264,7 +264,7 @@ class reserve:
 
     def get_submit(
         self, url, times, token, roomid, seatid, captcha="", action=False, value=""
-    ):
+    ): 
         delta_day = 1 if self.reserve_next_day else 0
         day = datetime.date.today() + datetime.timedelta(
             days=0 + delta_day
