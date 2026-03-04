@@ -7,7 +7,6 @@ import logging
 import datetime
 from urllib3.exceptions import InsecureRequestWarning
 
-
 def get_date(day_offset: int = 0):
     today = datetime.datetime.now().date()
     offset_day = today + datetime.timedelta(days=day_offset)
@@ -16,8 +15,7 @@ def get_date(day_offset: int = 0):
 
 
 class reserve:
-    def __init__(
-        self,
+    def __init__(self,
         sleep_time=0.2,
         max_attempt=50,
         enable_slider=False,
@@ -27,7 +25,7 @@ class reserve:
             "https://passport2.chaoxing.com/mlogin?loginType=1&newversion=true&fid="
         )
         self.url = (
-            "https://office.chaoxing.com/front/third/apps/seatengine/code?id={}&seatNum={}"
+            "https://office.chaoxing.com/front/third/apps/seatengine/select?id={}&day={}&backLevel=2&seatId=1"
         )
         self.submit_url = "https://office.chaoxing.com/data/apps/seatengine/submit"
         self.seat_url = "https://office.chaoxing.com/data/apps/seatengine/getusedtimes"
@@ -136,7 +134,7 @@ class reserve:
             "captchaId": "42sxgHoTPTKbt0uZxPJ7ssOvtXr3ZgZ1",
             "type": "slide",
             "token": captcha_token,
-            "textClickArr": json.dumps([{"x": x}]),
+            "textClickArr": json.dumps([{\"x\": x}]),
             "coordinate": json.dumps([]),
             "runEnv": "10",
             "version": "1.1.18",
@@ -153,7 +151,7 @@ class reserve:
         data = json.loads(text)
         logging.info(f"Successfully resolve the captcha token {data}")
         try:
-            validate_val = json.loads(data["extraData"])["validate"]
+            validate_val = json.loads(data["extraData"])['validate']
             return validate_val
         except KeyError as e:
             logging.info("Can't load validate value. Maybe server return mistake.")
@@ -235,8 +233,15 @@ class reserve:
         for seat in seatid:
             suc = False
             while ~suc and self.max_attempt > 0:
+                # Calculate the reservation day for the /select URL
+                delta_day = 1 if self.reserve_next_day else 0
+                if action:
+                    day = (datetime.date.today() + datetime.timedelta(days=1 + delta_day)).strftime("%Y-%m-%d")
+                else:
+                    day = (datetime.date.today() + datetime.timedelta(days=0 + delta_day)).strftime("%Y-%m-%d")
+
                 token, value = self._get_page_token(
-                    self.url.format(roomid, seat), require_value=True
+                    self.url.format(roomid, day), require_value=True
                 )
                 logging.info(f"Get token: {token}")
                 captcha = self.resolve_captcha() if self.enable_slider else ""
