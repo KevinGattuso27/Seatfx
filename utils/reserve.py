@@ -134,7 +134,7 @@ class reserve:
             "captchaId": "42sxgHoTPTKbt0uZxPJ7ssOvtXr3ZgZ1",
             "type": "slide",
             "token": captcha_token,
-            "textClickArr": json.dumps([{\"x\": x}]),
+            "textClickArr": json.dumps([{"x": x}]),
             "coordinate": json.dumps([]),
             "runEnv": "10",
             "version": "1.1.18",
@@ -151,7 +151,7 @@ class reserve:
         data = json.loads(text)
         logging.info(f"Successfully resolve the captcha token {data}")
         try:
-            validate_val = json.loads(data["extraData"])"["validate"]
+            validate_val = json.loads(data["extraData"])"validate"
             return validate_val
         except KeyError as e:
             logging.info("Can't load validate value. Maybe server return mistake.")
@@ -233,7 +233,6 @@ class reserve:
         for seat in seatid:
             suc = False
             while not suc and self.max_attempt > 0:
-                # Calculate the reservation day for the /select URL
                 delta_day = 1 if self.reserve_next_day else 0
                 if action:
                     day = (datetime.date.today() + datetime.timedelta(days=1 + delta_day)).strftime("%Y-%m-%d")
@@ -268,11 +267,11 @@ class reserve:
         delta_day = 1 if self.reserve_next_day else 0
         day = datetime.date.today() + datetime.timedelta(
             days=0 + delta_day
-        )  # 预约今天，修改days=1表示预约明天
+        )
         if action:
             day = datetime.date.today() + datetime.timedelta(
                 days=1 + delta_day
-            )  # 由于action时区问题导致其早+8区一天
+            )
         parm = {
             "roomId": roomid,
             "startTime": times[0],
@@ -285,7 +284,6 @@ class reserve:
             "verifyData": "1",
         }
         logging.info(f"submit parameter {parm} ")
-        # parm["enc"] = enc(parm)
         parm["enc"] = verify_param(parm, value)
         html = self.requests.post(url=url, params=parm, verify=True).content.decode(
             "utf-8"
