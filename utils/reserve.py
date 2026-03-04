@@ -72,7 +72,7 @@ class reserve:
     def _get_page_token(self, url, require_value=False):
         response = self.requests.get(url=url, verify=False)
         html = response.content.decode("utf-8")
-        # matches = re.findall(r"token = \'(.*?)\'", html)
+        # matches = re.findall(r"token = \"(.*?)\"", html)
         matches = re.findall(r'id="submit_enc"\s+value="(.*?)"', html)
         value_matches = None
         if require_value:
@@ -151,7 +151,7 @@ class reserve:
         data = json.loads(text)
         logging.info(f"Successfully resolve the captcha token {data}")
         try:
-            validate_val = json.loads(data["extraData"])['validate']
+            validate_val = json.loads(data["extraData"])"["validate"]
             return validate_val
         except KeyError as e:
             logging.info("Can't load validate value. Maybe server return mistake.")
