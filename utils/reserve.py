@@ -27,10 +27,10 @@ class reserve:
             "https://passport2.chaoxing.com/mlogin?loginType=1&newversion=true&fid="
         )
         self.url = (
-            "https://office.chaoxing.com/front/third/apps/seat/code?id={}&seatNum={}"
+            "https://office.chaoxing.com/front/third/apps/seatengine/code?id={}&seatNum={}"
         )
-        self.submit_url = "https://office.chaoxing.com/data/apps/seat/submit"
-        self.seat_url = "https://office.chaoxing.com/data/apps/seat/getusedtimes"
+        self.submit_url = "https://office.chaoxing.com/data/apps/seatengine/submit"
+        self.seat_url = "https://office.chaoxing.com/data/apps/seatengine/getusedtimes"
         self.login_url = "https://passport2.chaoxing.com/fanyalogin"
         self.token = ""
         self.success_times = 0
