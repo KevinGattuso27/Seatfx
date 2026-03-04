@@ -151,7 +151,7 @@ class reserve:
         data = json.loads(text)
         logging.info(f"Successfully resolve the captcha token {data}")
         try:
-            validate_val = json.loads(data["extraData"])"validate"
+            validate_val = json.loads(data["extraData"])["validate"]
             return validate_val
         except KeyError as e:
             logging.info("Can't load validate value. Maybe server return mistake.")
