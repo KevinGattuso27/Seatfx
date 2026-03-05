@@ -25,6 +25,7 @@ get_current_dayofweek = lambda action: (
 
 SLEEPTIME = 0.2  # 每次抢座的间隔
 ENDTIME = "12:10:00"  # 根据学校的预约座位时间+1min即可
+START_TIME = "11:58:00"  # 放票时间前2分钟，到这个时间才开始抢座
 
 ENABLE_SLIDER = True  # 是否有滑块验证
 MAX_ATTEMPT = 5  # 最大尝试次数
@@ -80,6 +81,15 @@ def main(users, action=False):
     today_reservation_num = sum(
         1 for d in users if current_dayofweek in d.get("daysofweek")
     )
+    
+    # ====== 新增：等待到放票时间，期间不发任何请求 ======
+    while current_time < START_TIME:
+        logging.info(f"等待中... 当前时间 {current_time}, 目标时间 {START_TIME}")
+        time.sleep(1)
+        current_time = get_current_time(action)
+    logging.info(f"开始抢座! 当前时间 {current_time}")
+    # ====== 新增结束 ======
+    
     while current_time < ENDTIME:
         attempt_times += 1
         # try:
