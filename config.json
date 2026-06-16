@@ -1,10 +1,22 @@
 {
     "reserve": [
-        {"username": "$",
-        "password": "$",
-        "time": ["11:00","22:00"],
+        {"username": "XXXXXXXX", 
+        "password": "XXXXXXXX",
+        "time": ["20:00","22:00"], // 预约的起始时间
+        "roomid":"2609", //2609:四楼外圈,5483:四楼内圈,2610:五楼外圈,5484:五楼内圈
+        "seatid":"013" // 注意要用0补全至3位数，例如6号座位应该填006
+        },
+        {"username": "xxxxxxx",
+        "password": "xxxxxxxxxx",
+        "time": ["20:00","22:00"],
         "roomid":"2609",
-        "seatid":["015"]
-    }
-    ]
+        "seatid":"014"
+        },
+        {"username": "xxxxxxx",
+        "password": "xxxxxxxxxx",
+        "time": ["20:00","22:00"],
+        "roomid":"2609",
+        "seatid":"015"
+        }
+        ]
 }
