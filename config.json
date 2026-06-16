@@ -6,17 +6,5 @@
         "roomid":"2609",
         "seatid":"013"
         },
-        {"username": "xxxxxxx",
-        "password": "xxxxxxxxxx",
-        "time": ["20:00","22:00"],
-        "roomid":"2609",
-        "seatid":"014"
-        },
-        {"username": "xxxxxxx",
-        "password": "xxxxxxxxxx",
-        "time": ["20:00","22:00"],
-        "roomid":"2609",
-        "seatid":"015"
-        }
         ]
 }
