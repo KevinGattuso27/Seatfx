@@ -10,7 +10,7 @@ import argparse
 import os
 
 SLEEPTIME = 0.5
-ENDTIME = "7:05:00"
+ENDTIME = "07:10:00"
 
 class reserve:
     def __init__(self):
@@ -53,9 +53,7 @@ class reserve:
         self.requests.get(url=self.login_page, verify=False)
 
     def get_submit(self, url, seat, token, roomid, seatid, captcha, action=False):
-        day = datetime.date.today() + datetime.timedelta(days=0)  # 预约今天，修改days=1表示预约明天
-        if action:
-            day = datetime.date.today() + datetime.timedelta(days=1)  # 预约今天，修改days=1表示预约明天
+        day = datetime.date.today()
         enc = encode(roomid, str(day), seat[0],seat[1],seatid,token)
         parm = {
             "roomId": roomid,
@@ -100,7 +98,7 @@ class reserve:
         for seat in seatid:
             suc = False
             remaining_times_for_seat = 2 # 每一个的座位尝试次数
-            while ~suc and remaining_times_for_seat > 0:
+            while not suc and remaining_times_for_seat > 0:
                 token = self.get_html(self.url.format(roomid, seat))
                 suc = self.get_submit(self.submit_url, i,
                                       token, roomid, seat, 0, action)
